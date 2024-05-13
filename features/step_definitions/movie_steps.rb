@@ -1,4 +1,9 @@
 #You can implement step definitions for undefined steps with these snippets:
+require 'uri'
+require 'cgi'
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+
 
 Given(/^the following movies exist:$/) do |movies_table|
   # table is a Cucumber::MultilineArgument::DataTable
@@ -8,11 +13,12 @@ Given(/^the following movies exist:$/) do |movies_table|
 end
 
 Given(/^I am on the RottenPotatoes home page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit root_path # Write code here that turns the phrase above into concrete actions
 end
 
 Given(/^I check the following ratings: PG, R$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  page.should have_content "PG" # Write code here that turns the phrase above into concrete actions
+  page.should have_content "R"
 end
 
 Given(/^I uncheck the following ratings: PG\-(\d+), G, NC\-(\d+)$/) do |arg1, arg2|
