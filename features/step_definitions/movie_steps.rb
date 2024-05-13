@@ -1,114 +1,32 @@
-#You can implement step definitions for undefined steps with these snippets:
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
-
-Given(/^the following movies exist:$/) do |movies_table|
+Given /the following movies exist/ do |movies_table|
   # table is a Cucumber::MultilineArgument::DataTable
   movies_table.hashes.each do |movie|
-    page.should have_content movie # Write code here that turns the phrase above into concrete actions
+    Movie.create!(movie)
   end
 end
 
-Given(/^I am on the RottenPotatoes home page$/) do
-  visit root_path # Write code here that turns the phrase above into concrete actions
+Given(/^I (un)?check the following ratings: (.*)/) do |uncheck, rating_list|
+  rating_list.split(",").each do |rating|
+    rating = rating.strip
+    rating = "ratings_" + rating
+    if uncheck == "un"
+      uncheck(rating)
+    else
+      check(rating)
+    end
+  end
 end
 
-Given(/^I check the following ratings: PG, R$/) do
-  page.should have_content "PG" # Write code here that turns the phrase above into concrete actions
-  page.should have_content "R"
-end
-
-Given(/^I uncheck the following ratings: PG\-(\d+), G, NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I press "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should not see "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I uncheck the following ratings: PG, G, R, PG\-(\d+), NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I check the following ratings: PG, G, R, PG\-(\d+), NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see all of the movies$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-
-############### ADDMOVIE.FEATURE######################
-Given(/^I am on the RottenPotatoes home page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I check the following ratings: PG, R$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I uncheck the following ratings: PG\-(\d+), G, NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I press "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should not see "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I uncheck the following ratings: PG, G, R, PG\-(\d+), NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I check the following ratings: PG, G, R, PG\-(\d+), NC\-(\d+)$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see all of the movies$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-###############SORT_MOVIE.FEATURE#######################33
-Given(/^the following movies exist:$/) do |table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I am on the RottenPotatoes home page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I check all ratings$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I press "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I follow "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see "([^"]*)" before "([^"]*)"$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
+Then /I should see (all|none) of the movies/ do |amount|
+  rows = page.body.scan(/<tr>/).length - 1
+  if amount == "none"
+    assert page.body.scan(/checked/).length == 0
+  else
+    assert rows = Movie.all.length
+  end
 end
