@@ -10,6 +10,10 @@ Given /the following movies exist/ do |movies_table|
   end
 end
 
+Then /I should see "(.*)" before "(.*)"/ do |e1,e2|
+  assert page.body.index(e1) < page.body.index(e2)
+end
+
 Given(/^I (un)?check the following ratings: (.*)/) do |uncheck, rating_list|
   rating_list.split(",").each do |rating|
     rating = rating.strip
