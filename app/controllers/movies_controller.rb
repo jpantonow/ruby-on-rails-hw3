@@ -6,12 +6,12 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  # def all_ratings
-  #   %w(G PG PG-13 NC-17 R)
-  # end
-  
+  def all_ratings
+    %w(G PG PG-13 NC-17 R)
+  end
+
   def index
-    #@movies = Movie.all #first version
+    @movies = Movie.all #first version
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
     end
      @all_ratings = Movie.all_ratings
      @selected_ratings = params[:ratings]|| session[:ratings] || {}
-    
+
      if @selected_ratings == {}
        @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
      end
@@ -32,8 +32,8 @@ class MoviesController < ApplicationController
        redirect_to :sort => sort, :ratings => @selected_ratings and return
      end
     @movies = Movie.order(ordering)
-    #@movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
-  
+    @movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
+
   end
 
   def new
