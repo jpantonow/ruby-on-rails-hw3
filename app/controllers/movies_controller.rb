@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
   def all_ratings
     %w(G PG PG-13 NC-17 R)
   end
-
+  #check this and index.html.haml
   def index
     @movies = Movie.all #first version
     sort = params[:sort] || session[:sort]
