@@ -58,12 +58,12 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
+  fill_in('movie_'+field, :with => value)
 end
 
-When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
-  fill_in(field, :with => value)
-end
+# When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
+#   fill_in(value, :with => field)
+# end
 
 # Use this to fill in an entire form with data from a table. Example:
 #
@@ -82,8 +82,8 @@ When /^(?:|I )fill in the following:$/ do |fields|
   end
 end
 
-When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
-  select(value, :from => field)
+When /^(?:|I )select "([^"]*)" from "rating"$/ do |value|
+  select(value, :from => 'movie_rating')
 end
 
 When /^(?:|I )check "([^"]*)"$/ do |field|
