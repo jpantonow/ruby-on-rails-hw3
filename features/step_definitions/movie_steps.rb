@@ -64,39 +64,13 @@ Then("I should see all of the movies") do
   page.all("table#movies tbody tr").count == Movie.count
 end
 
-# ''
-# Given('I press {string}') do |string|
-#   click_button(string) # Write code here that turns the phrase above into concrete actions
-# end
+Given("I check all ratings") do
+  ratings = page.all("#ratings_form checkbox")
+  ratings.each do |rating|
+      check(rating)
+  end
+end
 
-# Given('I follow {string}') do |string|
-#   click_link(link)
-# end
-# #Then /I should see "(.*)" before "(.*)"/ do |e1,e2|
-# #  assert page.body.index(e1) < page.body.index(e2)
-# #end
-# Then ('I should see {string} before {string}') do |movie1,movie2|
-#   assert page.body.index(movie1)
-# end
-#
-#Given(/^I (un)?check the following ratings: (.*)/) do |uncheck, rating_list|
-#  rating_list.split(",").each do |rating|
-#    rating = rating.strip
-#    rating = "ratings_" + rating
-#    if uncheck == "un"
-#      uncheck(rating)
-#    else
-#      check(rating)
-#    end
-#  end
-#end
-#
-#Then /I should see (all|none) of the movies/ do |amount|
-#  rows = page.body.scan(/<tr>/).length - 1
-#  if amount == "none"
-#    assert page.body.scan(/checked/).length == 0
-#  else
-#    assert rows = Movie.all.length
-#  end
-#end
-#
+Then("I should see {string} before {string}") do |movie1, movie2|
+  page.body.index(movie1) < page.body.index(movie2)
+end
