@@ -32,7 +32,7 @@ asdf info
 ## Ruby 2.7.0
 - Execute os comandos:
 ``` bash
-asdf intall ruby 2.7.0
+asdf install ruby 2.7.0
 asdf local ruby 2.7.0
 ```
 
