@@ -36,39 +36,32 @@ Then(/^I should see "([^"]*)"$/) do |something|
   assert page.has_content?(something)
 end
 
-Given("the following movies exist") do |movies_table|
+Given("the following movies exist:") do |movies_table|
   movies_table.hashes.each do |movie|
     Movie.create!(movie)
   end
 end
 
-Given("the following movies exist:") do |table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^I check the following ratings: (.*)$/) do |ratings|
+  ratings.split(', ').each do |rating|
+    check("ratings[#{rating}]")
+  end
 end
 
-Given("I check the following ratings: PG, R") do
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^I uncheck the following ratings: (.*)$/) do |ratings|
+  ratings.split(', ').each do |rating|
+    uncheck("ratings[#{rating}]")
+  end
 end
 
-Given("I uncheck the following ratings: PG{int}, G, NC{int}") do |int, int2|
-  pending # Write code here that turns the phrase above into concrete actions
+Then("I should not see {string}") do |movie|
+  page.has_no_content? movie
 end
 
-Then("I should not see {string}") do |string|
-  pending # Write code here that turns the phrase above into concrete actions
-end
 
-Given("I uncheck the following ratings: PG, G, R, PG{int}, NC{int}") do |int, int2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given("I check the following ratings: PG, G, R, PG{int}, NC{int}") do |int, int2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
 
 Then("I should see all of the movies") do
-  pending # Write code here that turns the phrase above into concrete actions
+  page.all("table#movies tbody tr").count == Movie.count
 end
 
 # ''
